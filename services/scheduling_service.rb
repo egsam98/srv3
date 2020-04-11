@@ -24,13 +24,9 @@ class SchedulingService
   # @return [Array]
   def run!(method)
     pq = case method
-         when 'rm'
-           PQueue.new([]) { |t1, t2| RM_COMPARATOR.call t1, t2 }
-         when 'edf'
-           PQueue.new([]) { |t1, t2| EDF_COMPARATOR.call t1, t2 }
-         else
-           raise 'Must be \"rm\" or \"edf\" as path param'
-         end
+         when 'rm' then PQueue.new([], &RM_COMPARATOR)
+         when 'edf' then PQueue.new([], &EDF_COMPARATOR)
+         else raise 'Must be \"rm\" or \"edf\" as path param' end
     tasks_out = []
     (0..hyper_period).each do |moment|
       @periodic_tasks.each { |t| t.spawn moment, pq }
