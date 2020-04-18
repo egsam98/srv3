@@ -1,8 +1,39 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 </head>
 <body>
+<% @tasks = tasks.uniq {|h| h[:id]}.sort {|h1, h2| h1[:id] <=> h2[:id]} %>
+<% @invalid_tasks = @tasks.map { |t| t[:id] if stats[t[:id]][:max] > t[:period] }.compact %>
+<h1><%= @invalid_tasks.empty?? '': "WARNING: В задачах #{@invalid_tasks} макс. время отклика превышает D"%></h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Период</th>
+    <th>λ</th>
+    <th>Время выполнения</th>
+    <th>Среднее время отклика</th>
+    <th>Макс. время отклика</th>
+    <th>D</th>
+  </tr>
+  <% @tasks.each do |t| %>
+      <tr>
+        <td><%= t[:id] %></td>
+        <td><%= t[:period] %></td>
+        <td><%= t[:lambda] %></td>
+        <td><%= t[:exec_time] %></td>
+        <td><%= stats[t[:id]][:average] %></td>
+        <td><%= stats[t[:id]][:max] %></td>
+        <td><%= t[:period] %></td>
+      </tr>
+  <% end %>
+</table>
 <div id="container"></div>
 <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>
 <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-gantt.min.js"></script>
@@ -11,7 +42,7 @@
     anychart.format.outputDateTimeFormat("mm:ss.SS");
     anychart.onDocumentReady(() => {
         const title = '<%= title %>';
-        const data = JSON.parse('<%= trace_data %>');
+        const data = JSON.parse('<%= tasks.to_json %>');
 
         console.log('data', data)
         const treeData = anychart.data.tree(data, 'as-table');

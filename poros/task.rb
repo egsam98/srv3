@@ -82,7 +82,7 @@ class AperiodicTask < AbstractTask
     @lambda = 1.0 / period
     start ||= ExponentialTimeGenerator.gen(@lambda, hyper_period)
     super id, period, exec_time, start
-    @name = "Задача №#{id} (lambda: #{@lambda}, start: #{@start} e: #{exec_time.to_f / 1000}s"
+    @name = "Задача №#{id} (lambda: #{(@lambda*1000).round(3)}, start: #{@start} e: #{exec_time.to_f / 1000}s"
   end
 
   # @overload

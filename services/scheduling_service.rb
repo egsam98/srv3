@@ -77,10 +77,10 @@ class SchedulingService
         {
           id: task.id,
           name: task.name,
-          p: task.period.to_f / 1000,
+          period: task.period.to_f / 1000,
           start: task.start,
           lambda: task.is_a?(AperiodicTask) ? (task.lambda.to_f * 1000).round(3) : nil,
-          e: task.exec_time.to_f / 1000,
+          exec_time: task.exec_time.to_f / 1000,
           markers: [],
           periods: periods
         }
