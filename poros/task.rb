@@ -2,19 +2,11 @@ require './utils/exponential_time_generator'
 
 
 class AbstractTask
-  include Comparable
   attr_reader :id, :period, :exec_time, :exec_time_remaining, :exec_moments,
               :name, :markers, :start
   attr_accessor :count
 
   Marker = Struct.new(:time, :start?)
-
-  # @param [Hash]json
-  # @return [Task]
-  # @abstract
-  def self.from_json!(json)
-    raise NotImplementedError
-  end
 
   def initialize(id, period, exec_time, start)
     @id = id
