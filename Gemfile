@@ -5,4 +5,5 @@ ruby '2.7.0'
 
 gem 'dry-validation'
 gem 'pqueue'
+gem 'rufus-scheduler'
 gem 'sinatra'
