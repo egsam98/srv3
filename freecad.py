@@ -13,19 +13,21 @@ TABLE_PADDING_BOTTOM = 10
 TABLE_PADDING_START = -2
 
 FRAME = 2
-U = 0.741
+U = 0.941
 
 DOC_NAME = "SAPR_Kurs"
 
 # Пришлось...
 INPUT_PATH = '/home/egor/RubyProjects/srv3/logs/edf1.json'
+INPUT_STATS = '/home/egor/RubyProjects/srv3/logs/edf_stats.json'
 TEMPLATE_PATH = '/home/egor/go/src/srv2/A3L1 GOST.svg'
 
 
 class Task:
-    def __init__(self, task_id, p, e, periods):
+    def __init__(self, task_id, p, l, e, periods):
         self.id = task_id
         self.p = p
+        self.l = l
         self.e = e
         self.periods = periods
 
@@ -34,7 +36,8 @@ class Task:
 
     @staticmethod
     def decode(obj):
-        return Task(str(obj["id"]), str(obj["period"]), str(obj["exec_time"]), obj["periods"])
+        l = str(obj["lambda"]) if obj["lambda"] else ' '
+        return Task(str(obj["id"]), str(obj["period"]), l, str(obj["exec_time"]), obj["periods"])
 
     @staticmethod
     def merge(tasks):
@@ -63,7 +66,7 @@ def draw_table(tasks):
     block_height = 1.
 
     # head
-    for j, head in enumerate(["id", "p", "e", "u_i (U: {})".format(U)]):
+    for j, head in enumerate(["id", "p", "lambda", "e", "u_i (U: {})", "t aver", "t max", "D".format(U)]):
         pl = FreeCAD.Placement()
         pl.Base = FreeCAD.Vector(start + j * block_len, bottom, 0.0)
         Draft.makeRectangle(length=block_len, height=block_height, placement=pl, face=False, support=None)
@@ -71,15 +74,18 @@ def draw_table(tasks):
         Draft.makeText(head, FreeCAD.Vector(start + j * block_len + 0.1, bottom + block_height / 4))
         show()
 
+    f = open(INPUT_STATS)
+    stats = json.load(f)
+    f.close()
     # content
     for i, task in enumerate(tasks):
         i = -i - 1
-        for j, value in enumerate([task.id, task.p, task.e, task.u()]):
+        for j, value in enumerate([task.id, task.p, task.l, task.e, task.u(), stats[task.id]['average'], stats[task.id]['max'], task.p]):
             pl = FreeCAD.Placement()
             pl.Base = FreeCAD.Vector(start + j*block_len, bottom + i, 0.0)
             Draft.makeRectangle(length=block_len, height=block_height, placement=pl, face=False, support=None)
             show()
-            Draft.makeText(value, FreeCAD.Vector(start + j*block_len + 0.1, bottom + i + block_height / 4))
+            Draft.makeText(str(value), FreeCAD.Vector(start + j*block_len + 0.1, bottom + i + block_height / 4))
             show()
 
 
