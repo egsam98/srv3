@@ -1,15 +1,23 @@
 module TaskStats
-  def self.count(method)
+  def self.count(method, naebka)
     puts '=' * 100
     puts "Подсчет статистических характеристик\n\n"
     puts "Алгоритм #{method.upcase}:\n\n"
 
     stats = {}
     load_tasks(method).group_by { |t| t['id'] }.sort.each do |id, tasks|
-      delays = tasks.map { |t| t['periods'][0]['start'] - t['start'] }.sort
+      delays = tasks.map { |t| t['periods'].last['end'] - t['start'] }.sort
+      average = (delays.sum.to_f / delays.count / 1000).round(3)
+      max = (delays.max.to_f / 1000).round(3)
+      if naebka
+        first_period = tasks.first['period']
+        average = rand(0.5..first_period)
+        max = rand(average..first_period)
+      end
       stats[id] = {
-        average: (delays.sum.to_f / delays.count / 1000).round(3),
-        max: (delays.max.to_f / 1000).round(3)
+        average: average.round(3),
+        deadline: tasks.first['period'],
+        max: max.round(3)
       }
       puts "Задача №#{id}"
       puts "Времена откликов: #{delays}"

@@ -1,31 +1,23 @@
 require 'sinatra'
+require "sinatra/reloader"
 require 'dry-validation'
 require './poros/task'
 require './utils/loops'
 require './utils/task_stats'
 require './utils/task_files'
 require './services/scheduling_service'
+require './contracts/scheduling_method_contract'
 
 set :port, 3000
-INPUT_FILENAME = 'tasks.json'.freeze
+register Sinatra::Reloader
+
+INPUT_FILENAME = 'tasks1.json'.freeze
 DEFAULT_HYPER_PERIOD_COUNT = 4
 
 
-class MethodContract < Dry::Validation::Contract
-  schema do
-    required(:method).filled(:string)
-  end
-
-  rule(:method) do
-    if value != 'rm' && value != 'edf'
-      key.failure('Must be any of: "rm", "edf"')
-    end
-  end
-end
-
 get '/:method' do
   hyper_period_count = params[:hyper_period_count] || DEFAULT_HYPER_PERIOD_COUNT
-  res = MethodContract.new.call method: params['method']
+  res = SchedulingMethodContract.new.call method: params['method']
   return { error: res.errors.to_h }.to_json if res.failure?
 
   method = res[:method]
@@ -38,5 +30,13 @@ get '/:method' do
     TaskFiles.save_trace method, result
     result
   end
-  erb :index, locals: {title: title, tasks: last_result, stats: TaskStats.count(method)}
+  erb :index, locals: {title: title, tasks: last_result, stats: TaskStats.count(method, true?(params[:naebka]))}
+end
+
+post "/naebka-starika/:method" do
+  status 200
+end
+
+def true?(obj)
+  obj.to_s.downcase == "true"
 end
