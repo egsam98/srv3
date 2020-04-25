@@ -1,11 +1,11 @@
 require 'json'
 
-N = 38 # Число период. задач
-M = 22 # Число апериод. задач
+N = 39 # Число период. задач
+M = 21 # Число апериод. задач
 
 MIN_U = 0.94
 MAX_U = 0.96
-PACKS = [[12, 7], [13, 7], [13, 8]] # Число задач период. и апериод., распределенных по процессорам
+PACKS = [[13, 7], [13, 7], [13, 7]] # Число задач период. и апериод., распределенных по процессорам
 MAX_EXEC_TIMES = [1000.0, 1000.0, 1000.0] # Макс. время выполнения задачи на каждом из процессоров
 HYPERPERIOD = 300_000.0
 CPU_COUNT = PACKS.length
@@ -33,12 +33,13 @@ PACKS.each_with_index do |(n, m), cpu|
   loop do
     periodic_tasks = periods.first(n).each_with_index.map do |p, i|
       exec_time = rand(50...[MAX_EXEC_TIMES[cpu], p].min)
-      {id: i + 1, period: p, exec_time: exec_time.round, periodic?: true }
+      {id: i + 1 + cpu * (n + m), period: p, exec_time: exec_time.round, periodic?: true}
     end
+
     aperiodic_tasks = (0...m).map do |i|
       p = rand(HYPERPERIOD * 0.5...HYPERPERIOD)
       exec_time = rand(50...[MAX_EXEC_TIMES[cpu], p].min)
-      {id: N + i + 1, period: p, exec_time: exec_time.round, periodic?: false }
+      {id: n + i + 1 + cpu * (n + m), period: p, exec_time: exec_time.round, periodic?: false}
     end
 
     tasks = periodic_tasks + aperiodic_tasks
