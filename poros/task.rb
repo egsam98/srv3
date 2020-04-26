@@ -56,7 +56,7 @@ class PeriodicTask < AbstractTask
   # @param [Integer]exec_time
   def initialize(id, period, exec_time, start = nil)
     super id, period, exec_time, start
-    @name = "Задача №#{id} (p: #{period.to_f / 1000}s, e: #{exec_time.to_f / 1000}s"
+    @name = "Задача №#{id} (p: #{period.to_f / 1000}, e: #{exec_time.to_f / 1000})"
   end
 
   # @overload
@@ -83,7 +83,7 @@ class AperiodicTask < AbstractTask
     @lambda = 1.0 / period
     start ||= ExponentialTimeGenerator.gen(@lambda, @hyper_period)
     super id, period, exec_time, start
-    @name = "Задача №#{id} (lambda: #{(@lambda*1000).round(3)}, start: #{@start} e: #{exec_time.to_f / 1000}s"
+    @name = "Задача №#{id} (p: #{(period / 1000).round(3)}, lambda: #{(@lambda*1000).round(3)}, e: #{exec_time.to_f / 1000})"
   end
 
   # @overload

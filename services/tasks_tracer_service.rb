@@ -21,7 +21,7 @@ class TasksTracerService
         }
       end
 
-      { id: id, counts: counts }
+      { name: trace.first['name'], counts: counts }
     end
   end
 

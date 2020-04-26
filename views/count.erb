@@ -4,7 +4,9 @@
 <body>
 <% @data.each do |h| %>
   <table border="1">
-    <caption>Задача №<%= h[:id] %></caption>
+    <caption>
+      <h2><%= h[:name] %></h2>
+    </caption>
     <thead>
       <tr>
         <th>Номер вызова</th>
