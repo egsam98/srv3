@@ -12,21 +12,24 @@ require './contracts/scheduling_method_contract'
 set :port, 3000
 register Sinatra::Reloader
 
-CPU = 1
-INPUT_FILENAME = "tasks#{CPU}.json"
 DEFAULT_HYPER_PERIOD_COUNT = 4
 
 
-get '/:method' do
+def input_filename(cpu)
+  "tasks#{cpu}.json"
+end
+
+get '/:method/:cpu' do
   hyper_period_count = params[:hyper_period_count] || DEFAULT_HYPER_PERIOD_COUNT
-  res = SchedulingMethodContract.new.call method: params['method']
+  res = SchedulingMethodContract.new.call(method: params[:method], cpu: params[:cpu])
   return { error: res.errors.to_h }.to_json if res.failure?
 
   method = res[:method]
+  file_name = input_filename(res[:cpu])
   TaskFiles.empty_result method
 
   last_result, title = Loops.times(hyper_period_count) do
-    service = SchedulingService.new TaskFiles.from_file
+    service = SchedulingService.new TaskFiles.from_file(file_name)
     title = "Алгоритм #{method.upcase}. Суммарная загруженность: #{service.summary_load.round(3)}"
     result = service.run! method
     TaskFiles.save_trace method, result

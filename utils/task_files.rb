@@ -6,8 +6,8 @@ module TaskFiles
   end
 
   # @return [Array<Task>]
-  def self.from_file
-    data = JSON.parse File.read(INPUT_FILENAME)
+  def self.from_file(fname)
+    data = JSON.parse File.read(fname)
     periodic_tasks = data['periodic'].map { |h| PeriodicTask.from_json! h }
     hyper_period = SchedulingService.hyper_period periodic_tasks
     aperiodic_tasks = data['aperiodic'].map do |h|
