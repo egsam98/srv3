@@ -20,4 +20,6 @@
 4. Перейти во freecad, прописать команду: exec(open("D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/freecad.py").read())   :warning:  Следить за const в freecad.py
 5. Экспорт чертежа в dxf.
 
+
 - Посчитать гиперпериод и фрейм. => Запуск ruby lib/hyperperiod_and_frame.rb    :warning:  Следить за const в lib/hyperperiod_and_frame.rb
+
