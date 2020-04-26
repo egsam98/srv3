@@ -1,0 +1,29 @@
+<html>
+<head>
+</head>
+<body>
+<% @data.each do |h| %>
+  <table border="1">
+    <caption>Задача №<%= h[:id] %></caption>
+    <thead>
+      <tr>
+        <th>Номер вызова</th>
+        <th>Время вызова</th>
+        <th>Время запуска</th>
+        <th>Длительность</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% h[:counts].each_with_index do |c, i| %>
+      <tr>
+        <td><%= i+1 %></td>
+        <td><%= c[:call_time].to_f / 1000 %></td>
+        <td><%= c[:start_time].to_f / 1000 %></td>
+        <td><%= c[:length].to_f / 1000 %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+</body>
+</html>

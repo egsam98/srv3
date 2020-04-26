@@ -79,8 +79,9 @@ class AperiodicTask < AbstractTask
   # @param [Integer]exec_time
   # @param [Integer]hyper_period
   def initialize(id, period, exec_time, hyper_period, start = nil)
+    @hyper_period = hyper_period
     @lambda = 1.0 / period
-    start ||= ExponentialTimeGenerator.gen(@lambda, hyper_period)
+    start ||= ExponentialTimeGenerator.gen(@lambda, @hyper_period)
     super id, period, exec_time, start
     @name = "Задача №#{id} (lambda: #{(@lambda*1000).round(3)}, start: #{@start} e: #{exec_time.to_f / 1000}s"
   end
@@ -98,6 +99,7 @@ class AperiodicTask < AbstractTask
     return unless moment == @start
 
     pq << self.class.new(@id, @period, @exec_time, @start)
-    # @start += KnuthPoissonRandom.gen(@lambda) // task must be called once
+    @count += 1
+    @start += ExponentialTimeGenerator.gen(@lambda, @hyper_period)
   end
 end
