@@ -12,14 +12,12 @@
 
 Порядок команд для запуска:
 
-:warning:  Следить за const в lib/tasks_generator.rb
-1. Генерация задач => ruby lib/tasks_generator.rb (выдает tasks_i.json)
+1. Генерация задач => ruby lib/tasks_generator.rb (выдает tasks_i.json)   :warning:  Следить за const в lib/tasks_generator.rb
 2. Запускаем ruby main.rb (переходим на localhost:3000)
 3. localhost:3000/метод/ид (выдает файлы в папке logs: rm_stats.json, rm1.json, ....)
 
-:warning:  Следить за const в freecad.py
-4. Перейти во freecad, прописать команду: exec(open("D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/freecad.py").read())
+
+4. Перейти во freecad, прописать команду: exec(open("D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/freecad.py").read())   :warning:  Следить за const в freecad.py
 5. Экспорт чертежа в dxf.
 
-:warning:  Следить за const в lib/hyperperiod_and_frame.rb
-- Посчитать гиперпериод и фрейм. => Запуск ruby lib/hyperperiod_and_frame.rb
+- Посчитать гиперпериод и фрейм. => Запуск ruby lib/hyperperiod_and_frame.rb    :warning:  Следить за const в lib/hyperperiod_and_frame.rb
