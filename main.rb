@@ -19,14 +19,14 @@ def input_filename(cpu)
   "tasks#{cpu}.json"
 end
 
-get "/count/:method" do
+get "/count/:method/" do
   res = SchedulingMethodContract.new.call method: params['method']
   return { error: res.errors.to_h }.to_json if res.failure?
   @data = TasksTracerService.new(res[:method]).count
   erb :count
 end
 
-get '/:method/:cpu' do
+get '/:method/:cpu/' do
   hyper_period_count = params[:hyper_period_count] || DEFAULT_HYPER_PERIOD_COUNT
   res = SchedulingMethodContract.new.call(method: params[:method], cpu: params[:cpu])
   return { error: res.errors.to_h }.to_json if res.failure?
