@@ -35,5 +35,5 @@ def frame(tasks)
 end
 
 tasks = JSON.parse File.read(TASKS_FILENAME)
-puts "Frame = #{frame(tasks)} ms"
-puts "Hyperperiod = #{nok_arr(tasks)} ms"
+puts "Frame = #{frame(tasks).to_f / 1000}"
+puts "Hyperperiod = НОК(#{tasks.values.flatten.map { |t| (t['period'] / 1000).round(3) }.join(' + ')}) = #{nok_arr(tasks).to_f / 1000}"
