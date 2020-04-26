@@ -21,4 +21,4 @@
 5. Экспорт чертежа в dxf.
 
 :warning:  Следить за const в lib/hyperperiod_and_frame.rb
-- Посчитать гиперпериод и фрейм.
+- Посчитать гиперпериод и фрейм. => Запуск ruby lib/hyperperiod_and_frame.rb
