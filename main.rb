@@ -19,6 +19,13 @@ def input_filename(cpu)
   "tasks#{cpu}.json"
 end
 
+get "/count/:method" do
+  res = SchedulingMethodContract.new.call method: params['method']
+  return { error: res.errors.to_h }.to_json if res.failure?
+  @data = TasksTracerService.new(res[:method]).count
+  erb :count
+end
+
 get '/:method/:cpu' do
   hyper_period_count = params[:hyper_period_count] || DEFAULT_HYPER_PERIOD_COUNT
   res = SchedulingMethodContract.new.call(method: params[:method], cpu: params[:cpu])
@@ -37,13 +44,6 @@ get '/:method/:cpu' do
   end
 
   erb :index, locals: {title: title, tasks: last_result, stats: TaskStats.count(method, true?(params[:naebka]))}
-end
-
-get "/count/:method" do
-  res = SchedulingMethodContract.new.call method: params['method']
-  return { error: res.errors.to_h }.to_json if res.failure?
-  @data = TasksTracerService.new(res[:method]).count
-  erb :count
 end
 
 post "/naebka-starika/:method" do

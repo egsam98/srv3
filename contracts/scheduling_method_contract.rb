@@ -1,7 +1,7 @@
 class SchedulingMethodContract < Dry::Validation::Contract
   schema do
     required(:method).filled(:string)
-    required(:cpu).filled(:string)
+    optional(:cpu).filled(:string)
   end
 
   rule(:method) do
@@ -10,5 +10,9 @@ class SchedulingMethodContract < Dry::Validation::Contract
     end
   end
 
-  rule(:cpu) { key.failure('Must be numerical') unless /\d/.match(value) }
+  rule(:cpu) do
+    unless value.nil?
+      key.failure('Must be numerical') unless /\d+/.match(value)
+    end
+  end
 end
