@@ -16,6 +16,7 @@
 1. Генерация задач => ruby lib/tasks_generator.rb (выдает tasks_i.json)
 2. Запускаем ruby main.rb (переходим на localhost:3000)
 3. localhost:3000/метод/ид (выдает файлы в папке logs: rm_stats.json, rm1.json, ....)
+
 :warning:  Следить за const в freecad.py
 4. Перейти во freecad, прописать команду: exec(open("D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/freecad.py").read())
 5. Экспорт чертежа в dxf.
