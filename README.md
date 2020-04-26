@@ -8,3 +8,18 @@
 :warning: Период и время исполнения **ДОЛЖНЫ** быть представлены в миллисекундах
 
 После GET-обращения по /rm или /edf необходимо проверить logs/ директорию, в которой должны находиться пронумерованные ОЫЩТ-файлы 4 гиперпериодов и файл со статистикой по выбранному алгоритму (среднее время отклика, макс. время отклика)
+
+
+Порядок команд для запуска:
+
+1. Генерация задач => ruby lib/tasks_generator.rb (выдает tasks_i.json)   :warning:  Следить за const в lib/tasks_generator.rb
+2. Запускаем ruby main.rb (переходим на localhost:3000)
+3. localhost:3000/метод/ид (выдает файлы в папке logs: rm_stats.json, rm1.json, ....)
+
+
+4. Перейти во freecad, прописать команду: exec(open("D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/freecad.py").read())   :warning:  Следить за const в freecad.py
+5. Экспорт чертежа в dxf.
+
+
+- Посчитать гиперпериод и фрейм. => Запуск ruby lib/hyperperiod_and_frame.rb    :warning:  Следить за const в lib/hyperperiod_and_frame.rb
+

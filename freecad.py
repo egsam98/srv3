@@ -13,14 +13,16 @@ TABLE_PADDING_BOTTOM = 10
 TABLE_PADDING_START = -2
 
 FRAME = 2
-U = 0.941
+U = 0.945
+HYPER_PERIOD = 47
 
 DOC_NAME = "SAPR_Kurs"
 
 # Пришлось...
-INPUT_PATH = '/home/egor/RubyProjects/srv3/logs/edf1.json'
-INPUT_STATS = '/home/egor/RubyProjects/srv3/logs/edf_stats.json'
-TEMPLATE_PATH = '/home/egor/go/src/srv2/A3L1 GOST.svg'
+FULL_PATH = 'D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/logs/'
+INPUT_PATH = FULL_PATH + 'rm1.json'
+INPUT_STATS = FULL_PATH + 'rm_stats.json'
+#TEMPLATE_PATH = '/home/egor/go/src/srv2/A3L1 GOST.svg'
 
 
 class Task:
@@ -58,7 +60,7 @@ def show():
 def draw_table(tasks):
     Gui.activateWorkbench("DrawingWorkbench")
 
-    tasks.sort(key=lambda t: t.id)
+    tasks.sort(key=lambda t: int(t.id))
 
     start = START + TABLE_PADDING_START
     bottom = BOTTOM + TABLE_PADDING_BOTTOM
@@ -66,7 +68,7 @@ def draw_table(tasks):
     block_height = 1.
 
     # head
-    for j, head in enumerate(["id", "p", "lambda", "e", "u_i (U: {})", "t aver", "t max", "D".format(U)]):
+    for j, head in enumerate(["id", "p", "lambda", "e", f"u_i (U: {U})", "D"]):
         pl = FreeCAD.Placement()
         pl.Base = FreeCAD.Vector(start + j * block_len, bottom, 0.0)
         Draft.makeRectangle(length=block_len, height=block_height, placement=pl, face=False, support=None)
@@ -80,7 +82,7 @@ def draw_table(tasks):
     # content
     for i, task in enumerate(tasks):
         i = -i - 1
-        for j, value in enumerate([task.id, task.p, task.l, task.e, task.u(), stats[task.id]['average'], stats[task.id]['max'], task.p]):
+        for j, value in enumerate([task.id, task.p, task.l, task.e, task.u(), task.p]):
             pl = FreeCAD.Placement()
             pl.Base = FreeCAD.Vector(start + j*block_len, bottom + i, 0.0)
             Draft.makeRectangle(length=block_len, height=block_height, placement=pl, face=False, support=None)
@@ -92,7 +94,7 @@ def draw_table(tasks):
 def draw_track(y, start_num, end_num):
     Gui.activateWorkbench("DrawingWorkbench")
 
-    points = [FreeCAD.Vector(x, y, 0.0) for x in [START, END]]
+    points = [FreeCAD.Vector(x, y, 0.0) for x in [START, int(HYPER_PERIOD)+1+START]]
     Draft.makeWire(points, closed=False, face=True, support=None)
     show()
     for i in range(end_num+1):
@@ -106,7 +108,7 @@ def draw_track(y, start_num, end_num):
         show()
 
     # draw frame
-    for i in range(0, int(END-START)+1, FRAME):
+    for i in range(0, int(HYPER_PERIOD)+1, FRAME):
         points = [
             FreeCAD.Vector(START + i, y + 0.25, 0),
             FreeCAD.Vector(START + i, y - 0.25, 0)
@@ -133,10 +135,10 @@ App.ActiveDocument = doc
 
 # Create drawing frame
 doc.addObject('Drawing::FeaturePage', 'Page')
-doc.Page.Template = TEMPLATE_PATH
+#doc.Page.Template = TEMPLATE_PATH
 Gui.activateWorkbench("DraftWorkbench")
 
-draw_track(TRACK_Y, 0, 243)
+draw_track(TRACK_Y, 0, HYPER_PERIOD)
 tracks = [TRACK_Y]
 with open(INPUT_PATH) as f:
     tasks = [Task.decode(obj) for obj in json.load(f)]
@@ -160,4 +162,6 @@ Gui.activateWorkbench("ArchWorkbench")
 # execfile('/home/egor/RubyProjects/srv3/freecad.py')
 
 # python3+
-# exec(open("/home/egor/RubyProjects/srv3/freecad.py").read())
+# exec(open("D:\_KolyaN\4-kurs-2-sem\Real-time Systems\Egor_proga\srv3\freecad.py").read())
+
+# exec(open("D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/freecad.py").read())
