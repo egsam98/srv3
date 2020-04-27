@@ -13,14 +13,15 @@ TABLE_WIDTH = 20
 TABLE_PADDING_BOTTOM = 10
 TABLE_PADDING_START = -2
 
+DOC_NAME = "SAPR_Kurs"
+
 # -----------------------------------
-FRAME = 3
-U = 0.956
-HYPER_PERIOD = 72
-MODE = 'srv-3' # srv-2 or srv-3
+FRAME = 2
+U = 0.942
+HYPER_PERIOD = 243
 
 FULL_PATH = 'D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/logs/'
-INPUT_PATH = FULL_PATH + 'edf4.json'
+INPUT_PATH = FULL_PATH + 'edf1.json'
 INPUT_STATS = FULL_PATH + 'edf_stats.json'
 #TEMPLATE_PATH = '/home/egor/go/src/srv2/A3L1 GOST.svg'
 # -----------------------------------
