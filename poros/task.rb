@@ -98,8 +98,11 @@ class AperiodicTask < AbstractTask
   def spawn(moment, pq)
     return unless moment == @start
 
-    pq << self.class.new(@id, @period, @exec_time, @start)
     @count += 1
+    copy = self.class.new(@id, @period, @exec_time, @start)
+    copy.count = @count
+    pq << copy
+
     @start += ExponentialTimeGenerator.gen(@lambda, @hyper_period)
   end
 end

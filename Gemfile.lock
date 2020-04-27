@@ -41,22 +41,14 @@ GEM
       dry-equalizer (~> 0.2)
       dry-initializer (~> 3.0)
       dry-schema (~> 1.5)
-    et-orbi (1.2.4)
-      tzinfo
-    fugit (1.3.4)
-      et-orbi (~> 1.1, >= 1.1.8)
-      raabro (~> 1.1)
     multi_json (1.14.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     pqueue (2.1.0)
-    raabro (1.1.6)
     rack (2.2.2)
     rack-protection (2.0.8.1)
       rack
     ruby2_keywords (0.0.2)
-    rufus-scheduler (3.6.0)
-      fugit (~> 1.1, >= 1.1.6)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -70,21 +62,19 @@ GEM
       sinatra (= 2.0.8.1)
       tilt (~> 2.0)
     tilt (2.0.10)
-    tzinfo (2.0.2)
-      concurrent-ruby (~> 1.0)
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
   dry-validation
   pqueue
-  rufus-scheduler
   sinatra
   sinatra-contrib
 
 RUBY VERSION
-   ruby 2.7.0p0
+   ruby 2.7.1p83
 
 BUNDLED WITH
-   2.1.2
+   2.1.4
