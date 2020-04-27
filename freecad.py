@@ -13,15 +13,16 @@ TABLE_PADDING_BOTTOM = 10
 TABLE_PADDING_START = -2
 
 FRAME = 2
-U = 0.945
-HYPER_PERIOD = 47
+U = 0.942
+HYPER_PERIOD = 243
 
 DOC_NAME = "SAPR_Kurs"
 
 # Пришлось...
-FULL_PATH = 'D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/logs/'
-INPUT_PATH = FULL_PATH + 'rm1.json'
-INPUT_STATS = FULL_PATH + 'rm_stats.json'
+# FULL_PATH = 'D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/logs/'
+FULL_PATH = "/home/egor/RubyProjects/srv3/logs/"
+INPUT_PATH = FULL_PATH + 'edf1.json'
+INPUT_STATS = FULL_PATH + 'edf_stats.json'
 #TEMPLATE_PATH = '/home/egor/go/src/srv2/A3L1 GOST.svg'
 
 
@@ -68,7 +69,7 @@ def draw_table(tasks):
     block_height = 1.
 
     # head
-    for j, head in enumerate(["id", "p", "lambda", "e", f"u_i (U: {U})", "D"]):
+    for j, head in enumerate(["id", "p", "lambda", "e", f"u_i (U: {U})", "t aver", "t max", "D"]):
         pl = FreeCAD.Placement()
         pl.Base = FreeCAD.Vector(start + j * block_len, bottom, 0.0)
         Draft.makeRectangle(length=block_len, height=block_height, placement=pl, face=False, support=None)
@@ -82,7 +83,7 @@ def draw_table(tasks):
     # content
     for i, task in enumerate(tasks):
         i = -i - 1
-        for j, value in enumerate([task.id, task.p, task.l, task.e, task.u(), task.p]):
+        for j, value in enumerate([task.id, task.p, task.l, task.e, task.u(), stats[task.id]["average"], stats[task.id]["max"], task.p]):
             pl = FreeCAD.Placement()
             pl.Base = FreeCAD.Vector(start + j*block_len, bottom + i, 0.0)
             Draft.makeRectangle(length=block_len, height=block_height, placement=pl, face=False, support=None)
@@ -164,4 +165,4 @@ Gui.activateWorkbench("ArchWorkbench")
 # python3+
 # exec(open("D:\_KolyaN\4-kurs-2-sem\Real-time Systems\Egor_proga\srv3\freecad.py").read())
 
-# exec(open("D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/freecad.py").read())
+# exec(open("/home/egor/RubyProjects/srv3/freecad.py").read())
