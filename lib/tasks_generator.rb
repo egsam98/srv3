@@ -16,20 +16,26 @@ def u!(task)
   task[:exec_time].to_f / task[:period]
 end
 
-periods = [HYPERPERIOD]
-(N - 1).times do
-  p = HYPERPERIOD
-  loop do
-    throw 'P < 1' if p < 1
-    break periods << p if HYPERPERIOD % p == 0 && !periods.include?(p)
-    p = (p - 0.1).round(1)
-  end
-end
-p periods
-periods.shuffle!
+hyper_periods_history = HYPER_PERIODS.clone
+HYPER_PERIODS.each_with_index do |hyper_period, cpu|
 
-success_info = []
-PACKS.each_with_index do |(n, m), cpu|
+  n, m = PACKS[cpu]
+  periods = [hyper_period]
+  (n - 1).times do
+    p = hyper_period
+    loop do
+      throw 'P < 1' if p < 1
+      if (hyper_period % p).zero? && !hyper_periods_history.include?(p)
+        break periods << p, hyper_periods_history << p
+      end
+
+      p = (p - 0.1).round(1)
+    end
+  end
+  p periods
+  periods.shuffle!
+
+  success_info = []
   loop do
     periodic_tasks = periods.first(n).each_with_index.map do |p, i|
       exec_time = rand(50...[MAX_EXEC_TIMES[cpu], p].min)
@@ -37,7 +43,7 @@ PACKS.each_with_index do |(n, m), cpu|
     end
 
     aperiodic_tasks = (0...m).map do |i|
-      p = rand(HYPERPERIOD * 0.5...HYPERPERIOD)
+      p = rand(hyper_period * 0.5...hyper_period)
       exec_time = rand(50...[MAX_EXEC_TIMES[cpu], p].min)
       {id: n + i + 1 + cpu * (n + m), period: p, exec_time: exec_time.round, periodic?: false}
     end
@@ -60,5 +66,7 @@ PACKS.each_with_index do |(n, m), cpu|
     periods.shift(n)
     break
   end
+
+  puts success_info
+
 end
-puts success_info

@@ -19,6 +19,8 @@
     <h1><%= "WARNING: В задачах #{@invalid_tasks} макс. время отклика превышает D" %></h1>
     <button onclick="naebati()">Наебать старика!</button>
 <% end %>
+<% @latest_task = tasks.max { |t| t[:periods].last[:end] }[:periods].last[:end] %>
+<h3>Задачи выполняются до <%= (@latest_task.to_f / 1000).round(3) %></h3>
 <table>
   <tr>
     <th>ID</th>
