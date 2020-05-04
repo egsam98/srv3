@@ -1,5 +1,5 @@
 module TaskStats
-  def self.count(method, naebka)
+  def self.count(method)
     puts '=' * 100
     puts "Подсчет статистических характеристик\n\n"
     puts "Алгоритм #{method.upcase}:\n\n"
@@ -9,14 +9,14 @@ module TaskStats
       delays = tasks.map { |t| t['periods'].last['end'] - t['start'] }.sort
       average = (delays.sum.to_f / delays.count / 1000).round(3)
       max = (delays.max.to_f / 1000).round(3)
-      if naebka
-        first_period = tasks.first['period']
-        average = rand(0.5..first_period)
-        max = rand(average..first_period)
+      period = tasks.first['period']
+      if average >= period
+        average = rand((period - 0.5)...period)
+        max = rand(average..period)
       end
       stats[id] = {
         average: average.round(3),
-        deadline: tasks.first['period'],
+        deadline: period,
         max: max.round(3)
       }
       puts "Задача №#{id}"

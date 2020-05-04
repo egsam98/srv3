@@ -43,13 +43,5 @@ get '/:method/:cpu/?' do
     [result, title]
   end
 
-  erb :index, locals: {title: title, tasks: last_result, stats: TaskStats.count(method, true?(params[:naebka]))}
-end
-
-post "/naebka-starika/:method" do
-  status 200
-end
-
-def true?(obj)
-  obj.to_s.downcase == "true"
+  erb :index, locals: {title: title, tasks: last_result, stats: TaskStats.count(method)}
 end

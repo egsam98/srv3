@@ -13,15 +13,17 @@
         <th>Время вызова</th>
         <th>Время запуска</th>
         <th>Длительность</th>
+        <th>Время отклика</th>
       </tr>
     </thead>
     <tbody>
       <% h[:counts].each_with_index do |c, i| %>
       <tr>
         <td><%= i+1 %></td>
-        <td><%= c[:call_time].to_f / 1000 %></td>
-        <td><%= c[:start_time].to_f / 1000 %></td>
-        <td><%= c[:length].to_f / 1000 %></td>
+        <td><%= (c[:call_time].to_f / 1000).round(4) %></td>
+        <td><%= (c[:start_time].to_f / 1000).round(4) %></td>
+        <td><%= (c[:length].to_f / 1000).round(4) %></td>
+        <td><%= (c[:response_time].to_f / 1000).round(4) %></td>
       </tr>
       <% end %>
     </tbody>

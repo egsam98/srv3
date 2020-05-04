@@ -47,15 +47,6 @@
 <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>
 <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-gantt.min.js"></script>
 <script>
-    const naebati = async () => {
-        const method = location.href.substring(location.href.lastIndexOf('/') + 1)
-        const res = await fetch(`/naebka-starika/${method}`, { method: "POST" })
-        if (res.ok) {
-            window.location.href = `/${method}?naebka=true`;
-            alert("Старика успешно наебали")
-        }
-    }
-
     anychart.format.inputDateTimeFormat("mm:ss.SS");
     anychart.format.outputDateTimeFormat("mm:ss.SS");
     anychart.onDocumentReady(() => {
