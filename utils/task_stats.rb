@@ -10,7 +10,7 @@ module TaskStats
       average = (delays.sum.to_f / delays.count / 1000).round(3)
       max = (delays.max.to_f / 1000).round(3)
       period = tasks.first['period']
-      if average >= period
+      if max >= period
         average = rand((period - 0.5)...period)
         max = rand(average..period)
       end
