@@ -17,8 +17,10 @@ DOC_NAME = "SAPR_Kurs"
 
 # -----------------------------------
 FRAME = 2
-U = 0.942
-HYPER_PERIOD = 243
+U = 0.957
+HYPER_PERIOD = 130
+
+MODE = "srv-3" # srv-2 or srv-3
 
 FULL_PATH = 'D:/_KolyaN/4-kurs-2-sem/Real-time Systems/Egor_proga/srv3/logs/'
 INPUT_PATH = FULL_PATH + 'edf1.json'
@@ -26,7 +28,6 @@ INPUT_STATS = FULL_PATH + 'edf_stats.json'
 #TEMPLATE_PATH = '/home/egor/go/src/srv2/A3L1 GOST.svg'
 # -----------------------------------
 
-DOC_NAME = "SAPR_Kurs"
 
 class Task:
     def __init__(self, task_id, p, l, e, periods):
