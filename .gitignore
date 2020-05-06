@@ -1,3 +1,5 @@
 .idea/
 *.iml
 *.json
+tasks_all/
+logs/cpu_all/
